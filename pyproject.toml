@@ -1,0 +1,25 @@
+[tool.ruff]
+# 対象とするPythonバージョン
+target-version = "py311"
+
+# 1行の最大文字数
+line-length = 88
+
+[tool.ruff.lint]
+# 使用するルールセット
+# E: pycodestyle(エラー), F: Pyflakes, I: isort(インポート順)
+select = ["E", "F", "I"]
+ignore = []
+
+[tool.mypy]
+# Pythonのバージョン
+python_version = "3.11"
+
+# 型アノテーションがない関数の定義を警告する（最初は false でもOK）
+disallow_untyped_defs = false
+
+# 型定義が見つからないサードパーティライブラリのエラーを無視
+ignore_missing_imports = true
+
+# エラーメッセージを分かりやすく表示
+show_error_codes = true

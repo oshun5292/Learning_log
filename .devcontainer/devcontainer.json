@@ -1,0 +1,32 @@
+{
+  "name": "Lerning_log",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  // コンテナ起動後に実行するコマンド（パッケージのインストール）
+  "postCreateCommand": "sudo uv pip install --system numpy matplotlib jupyter ruff mypy",
+
+  // コンテナ内で自動インストールするVS Code拡張機能
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "charliermarsh.ruff",
+        "ms-python.mypy-type-checker",
+        "ms-toolsai.jupyter"
+      ],
+      // コンテナ内でのVS Code設定（Ruffの保存時フォーマットなど）
+      "settings": {
+        "[python]": {
+          "editor.defaultFormatter": "charliermarsh.ruff",
+          "editor.formatOnSave": true,
+          "editor.codeActionsOnSave": {
+            "source.fixAll.ruff": "explicit",
+            "source.organizeImports.ruff": "explicit"
+          }
+        }
+      }
+    }
+  }
+}
