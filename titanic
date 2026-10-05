@@ -1,0 +1,32 @@
+import pandas as pd
+
+# データの読み込み
+train = pd.read_csv("train.csv")
+test = pd.read_csv("test.csv")
+
+#データの前処理
+##Age,Fareは中央値で穴埋め
+##Embarkedは最頻値で穴埋め
+##Cabin列は欠損地が非常に多いため、削除する。
+##データリーク（testデータなどの未来の情報を使うこと）を避けるような設計にする。
+# Fareは特に注意！
+def preprocess(df):
+    df["Age"] = df["Age"].fillna(train["Age"].median())
+    df["Embarked"] = df["Embarked"].fillna(train["Embarked"].mode()[0])
+    df["Fare"] = df["Fare"].fillna(train["Fare"].median())
+    df =df.drop("Cabin",axis=1)
+    return df
+
+train = preprocess(train)
+test = preprocess(test)
+
+#データの前処理（パート２）
+#ラベルの変換
+train["Sex"] = train["Sex"].map({"male":0, "female":1})
+test["Sex"] = test["Sex"].map({"male":0, "female":1})
+#One-Hot Encording
+train = pd.get_dummies(train, columns=["Embarked"], drop_first=True)
+test = pd.get_dummies(test, columns=["Embarked"], drop_first=True)
+#型の確認
+print(train.dtypes)
+print(test.dtypes)
